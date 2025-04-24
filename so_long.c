@@ -1,4 +1,4 @@
-#include "so_long.h"
+#include "./so_long.h"
 
 int close_window(void *param)
 {
@@ -16,23 +16,30 @@ int key_hook(int keycode, void *param)
 
 int	main(void)
 {
-	void	*mlx;
-	void	*win;
-    void    *images[5];
-    char    **map;
-
+    t_game g_game;
     
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, 2000, 1600, "so_long");
-    images[0] = load_image(mlx, "walls.xpm");
-    images[1] = load_image(mlx, "background.xpm");
-    images[2] = load_image(mlx, "person.xpm");
-    images[3] = load_image(mlx, "end.xpm");
-    images[4] = load_image(mlx, "collectable.xpm");
-    map = load_map("algo.ber");
-    draw_map(mlx, win, map, map, floor_img);
-    mlx_hook(win, 17, 0, close_window, NULL);
-    mlx_hook(win, 2, 1L << 0, key_hook, NULL);
-	mlx_loop(mlx);
-	return (0);
+    load_images(&g_game);
+
+	g_game.mlx = mlx_init();
+    if (!g_game.mlx) {
+        printf("Error initializing mlx\n");
+        return 1;
+    }
+
+    g_game.map = load_map("algo.ber", &g_game);
+    if (!g_game.map) {
+        printf("Error loading map\n");
+        return 1;
+    }
+
+    g_game.win = mlx_new_window(g_game.mlx, g_game.map_width * TILE_SIZE, g_game.map_height * TILE_SIZE, "so_long");
+    if (!g_game.win) {
+        printf("Error creating window\n");
+        return 1;
+    }
+    draw_map(&g_game);
+    mlx_hook(g_game.win, 17, 0, close_window, NULL);
+    mlx_hook(g_game.win, 2, 1L << 0, key_hook, NULL);
+	mlx_loop(g_game.mlx);
+    return (0);
 }

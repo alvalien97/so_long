@@ -13,20 +13,20 @@
 
 # define TILE_SIZE 32
 
-char **map;
-int map_width, map_height;
-void *mlx;
-void *win;
-void *img_wall;
-void *img_space;
-void *img_player;
-void *img_exit;
-void *img_collectible;
+typedef struct s_game
+{
+    char **map;
+    int map_width;
+    int map_height;
+    void *mlx;
+    void *win;
+    void *images[5];
+} t_game;
 
 int close_window(void *param);
 int key_hook(int keycode, void *param);
-void    *load_image(void *mlx, char *file_path);
-int	**load_map(char *file);
-void    load_images();
+void    load_images(t_game *game);
+char	**load_map(char *file, t_game *game);
+void	draw_map(t_game *game);
 
 #endif

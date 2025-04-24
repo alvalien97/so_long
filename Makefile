@@ -2,7 +2,7 @@ SRCS = so_long.c map.c get_next_line/get_next_line.c get_next_line/get_next_line
 OBJS = ${SRCS:.c=.o}
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I./libft -I./get_next_line -I./minilibx
+CFLAGS = -Wall -Wextra -Werror -g -I./libft -I./get_next_line -I./minilibx
 
 NAME = so_long
 
@@ -11,14 +11,17 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 MINILIBX_DIR = ./minilibx
 MINILIBX_FLAGS = -L$(MINILIBX_DIR) -lmlx -lX11 -lXext -lm
+MINILIBX_LIB = $(MINILIBX_DIR)/libmlx.a
 
-# Reglas
-all: $(LIBFT) $(NAME)
+all: $(LIBFT) $(MINILIBX_LIB) $(NAME)
+
+$(MINILIBX_LIB):
+	@make -C $(MINILIBX_DIR)
 
 $(LIBFT):
 	@make -C $(LIBFT_DIR)
 
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME): $(OBJS) $(LIBFT) $(MINILIBX_LIB)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MINILIBX_FLAGS) -o $(NAME)
 
 %.o: %.c
@@ -31,7 +34,6 @@ clean:
 
 fclean: clean
 	@make -C $(LIBFT_DIR) fclean
-	@make -C $(MINILIBX_DIR) fclean
 	$(RM) $(NAME)
 
 re: fclean all
