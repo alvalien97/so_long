@@ -1,0 +1,19 @@
+so_long/
+├── Makefile
+├── src/
+│   ├── main.c
+│   ├── parsing.c
+│   ├── draw.c
+│   ├── game_logic.c
+│   └── utils.c
+├── include/
+│   └── so_long.h
+├── maps/
+│   └── map1.ber
+└── pictures/
+    ├── wall.xpm
+    ├── floor.xpm
+    ├── player.xpm
+    ├── exit.xpm
+    └── collectable.xpm
+

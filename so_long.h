@@ -15,13 +15,30 @@
 
 typedef struct s_game
 {
-    char **map;
-    int map_width;
-    int map_height;
-    void *mlx;
-    void *win;
-    void *images[5];
+    char	**map;
+	int		width;
+	int		height;
+	int		player_x;
+    int     player_y;
+	int		collectables;
+	int		collected;
+	int		moves;
+	void	*mlx;
+	void	*win;
+	void	*img_wall;
+	void	*img_floor;
+	void	*img_player;
+	void	*img_exit;
+	void	*img_collectable;
 } t_game;
+
+//recorrer el mapa y validarlo
+char    **read_map(const char *filename, t_game *game);
+int     validate_map(t_game *game);
+
+//utils
+void    free_map(char **map);
+
 
 int close_window(void *param);
 int key_hook(int keycode, void *param);

@@ -1,0 +1,61 @@
+#include "so_long.h"
+
+void	draw_tile(t_game *g, void *img, int x, int y)
+{
+	mlx_put_image_to_window(g->mlx, g->win, img,
+		x * TILE_SIZE, y * TILE_SIZE);
+}
+
+void	draw_map(t_game *g)
+{
+	int	x;
+	int	y;
+	char	tile;
+
+	y = 0;
+	while (y < g->height)
+	{
+		x = 0;
+		while (x < g->width)
+		{
+			tile = g->map[y][x];
+			draw_tile(g, g->img_floor, x, y);
+			if (tile == '1')
+				draw_tile(g, g->img_wall, x, y);
+			else if (tile == 'P')
+				draw_tile(g, g->img_player, x, y);
+			else if (tile == 'C')
+				draw_tile(g, g->img_collectable, x, y);
+			else if (tile == 'E')
+				draw_tile(g, g->img_exit, x, y);
+			x++;
+		}
+		y++;
+	}
+}
+
+#include "so_long.h"
+#include <X11/keysym.h>
+#include <X11/X.h>
+
+int	handle_key(int keycode, t_game *g)
+{
+	if (keycode == XK_Escape)
+		exit(0);
+	if (keycode == XK_w)
+		move_up(g);
+	else if (keycode == XK_a)
+		move_left(g);
+	else if (keycode == XK_s)
+		move_down(g);
+	else if (keycode == XK_d)
+		move_right(g);
+	draw_map(g);
+	return (0);
+}
+
+int	close_window(t_game *g)
+{
+	free_map(g->map);
+	exit(0);
+}
