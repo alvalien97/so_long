@@ -1,4 +1,4 @@
-SRCS = so_long.c map.c get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
+SRCS = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c draw_map.c load_images.c main.c move_player.c move_utils.c read_map.c validate_map.c validate_coins.c
 OBJS = ${SRCS:.c=.o}
 
 CC = cc
